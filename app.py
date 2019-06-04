@@ -37,19 +37,22 @@ def index():
     if request.method == 'GET':
         cur = mysql.get_db().cursor()
 
-        result = cur.execute("SELECT drivers.car_pictures FROM drivers INNER JOIN record ON record.driver_id = drivers.id GROUP BY drivers.car_pictures HAVING AVG(rating) >= 4 ORDER BY record.created_at DESC LIMIT 3")
+        result = cur.execute("SELECT drivers.car_pictures FROM drivers INNER JOIN record ON record.driver_id = drivers.id  ORDER BY record.created_at DESC LIMIT 3")
 
 
         data = cur.fetchall()
 
 
-        feedback = cur.execute("SELECT * FROM feedback ORDER BY id DESC LIMIT 3")
+        feedback = cur.execute("SELECT feedback.*, users.email FROM feedback INNER JOIN users ON users.id = feedback.user_id ORDER BY id DESC LIMIT 3")
         feedback = cur.fetchall()
+        print("feedback")
+        print(feedback)
 
-        feedback2 = cur.execute("SELECT * FROM feedback ORDER BY id ASC LIMIT 3")
+        feedback2 = cur.execute("SELECT feedback.*, users.email FROM feedback INNER JOIN users ON users.id = feedback.user_id ORDER BY id ASC LIMIT 3")
         feedback2= cur.fetchall()
-
+        print("feedback2")
         print (feedback2)
+
         return render_template("index.html", data=data, feedback=feedback, feedback2=feedback2)
         # return render_template("index.html", data=data)
 
@@ -123,7 +126,8 @@ def login():
                 session['user_id'] = user[0]
                 session['user_role'] = user[4]
                 
-                return render_template('index.html')
+                # return render_template('index.html')
+                return redirect('/')
             else: 
                 msg = "Invalid password" 
                 return render_template('login.html', msg = msg)
@@ -250,6 +254,7 @@ def dashboard():
 
         cur = mysql.get_db().cursor()
 
+        session['user_role'] = 0
         if session['user_role'] == 1:
 
             result = cur.execute("SELECT * FROM drivers ORDER BY created_at DESC")
@@ -258,11 +263,12 @@ def dashboard():
                 data = cur.fetchall()
             else:
                 data = []
-            print(data)
+
 
             return render_template('dashboard.html', data = data)
         else:
-        
+            print("cur user id")
+            print(user_id)
             result = cur.execute("SELECT record.*, users.email FROM record INNER JOIN users ON users.id = record.passenger_id WHERE passenger_id = %s OR driver_id = %s ORDER BY created_at DESC", [user_id, user_id])
 
             if result > 0:

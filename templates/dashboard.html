@@ -28,11 +28,11 @@
 				  	{% for i in data %}
 				    <tr>
 				      	<th scope="row">{{i[0]}}</th>
-					    <td>{{i[9]}}</td>
+					    <td>{{i[2]}}</td>
 						<td>
-							{% if i[8] == 1 %}
+							{% if i[7] == 1 %}
 								<span>In Process</span>
-							{% elif  i[8] == 2 %}
+							{% elif  i[7] == 2 %}
 								<span>Rejected</span>
 							{% else %}
 								<span>Finished</span>
@@ -40,35 +40,35 @@
 
 						</td>
 
-						<td>{{i[6]}}</td>
+						<td>{{i[5]}}</td>
 						<td>
-							{% if i[7] == 0 %}
+							{% if i[6] == 0 %}
 								<span>N/A</span>
-							{% elif i[7] == 1 %}
+							{% elif i[6] == 1 %}
 								<span class="fa fa-star checked"></span>
 								<span class="fa fa-star"></span>
 								<span class="fa fa-star"></span>
 								<span class="fa fa-star"></span>
 								<span class="fa fa-star"></span>
-							{% elif i[7] == 2 %}
+							{% elif i[6] == 2 %}
 								<span class="fa fa-star checked"></span>
 								<span class="fa fa-star checked"></span>
 								<span class="fa fa-star"></span>
 								<span class="fa fa-star"></span>
 								<span class="fa fa-star"></span>
-							{% elif i[7] == 3 %}
+							{% elif i[6] == 3 %}
 								<span class="fa fa-star checked"></span>
 								<span class="fa fa-star checked"></span>
 								<span class="fa fa-star checked"></span>
 								<span class="fa fa-star"></span>
 								<span class="fa fa-star"></span>
-							{% elif i[7] == 4 %}
+							{% elif i[6] == 4 %}
 								<span class="fa fa-star checked"></span>
 								<span class="fa fa-star checked"></span>
 								<span class="fa fa-star checked"></span>
 								<span class="fa fa-star checked"></span>
 								<span class="fa fa-star"></span>
-							{% elif i[7] == 5 %}
+							{% elif i[6] == 5 %}
 								<span class="fa fa-star checked"></span>
 								<span class="fa fa-star checked"></span>
 								<span class="fa fa-star checked"></span>
@@ -81,10 +81,10 @@
 
 						</td>
 						<td>
-							{% if session.user_id == i[1] and i[8] == 1 %}
+							{% if session.user_id == i[1] and i[7] == 1 %}
 								<a href="/process-request?order=0&i={{i[0]}}" class="btn btn-success" role="button">Accept</a>
 								<a href="/process-request?order=2&i={{i[0]}}" class="btn btn-danger" role="button">Declne</a>
-							{% elif session.user_id != i[1] and i[8] == 0 %}
+							{% elif session.user_id != i[1] and i[7] == 0 %}
 								<a href="/rating?r_id={{i[0]}}&d_id={{i[1]}}" class="btn btn-info" role="button">View</a>
 							{% endif %}
 						</td>
